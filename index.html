@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>M R Madhavan — AI Engineer / Full‑Stack Developer</title>
+
+  <meta name="description" content="M R Madhavan — AI Engineer & Full‑Stack Developer. GenAI, RAG, CV, cloud, and testing-focused engineering with patents and projects." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Space Grotesk', 'ui-sans-serif', 'system-ui'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root{
+      --bg0:#050816;
+      --bg1:#070a1f;
+      --card: rgba(255,255,255,.06);
+      --border: rgba(255,255,255,.12);
+      --t1: rgba(255,255,255,.92);
+      --t2: rgba(255,255,255,.72);
+      --t3: rgba(255,255,255,.55);
+
+      --violet:#7c3aed;
+      --cyan:#06b6d4;
+      --rose:#f43f5e;
+    }
+
+    html,body{ height:100%; }
+    body{
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(124,58,237,.18), transparent 55%),
+        radial-gradient(1000px 700px at 90% 20%, rgba(6,182,212,.14), transparent 50%),
+        radial-gradient(900px 700px at 50% 90%, rgba(244,63,94,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      color: var(--t1);
+      font-family: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    /* Noise overlay */
+    .noise::before{
+      content:"";
+      position: fixed; inset: 0;
+      pointer-events: none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.20'/%3E%3C/svg%3E");
+      opacity:.35;
+      mix-blend-mode: overlay;
+    }
+
+    /* Cursor spotlight */
+    .spotlight{
+      position: fixed; inset: 0;
+      pointer-events: none;
+      background: radial-gradient(600px 600px at var(--mx, 50%) var(--my, 30%),
+        rgba(255,255,255,.08), transparent 60%);
+      mix-blend-mode: screen;
+      opacity: .9;
+    }
+
+    .glass{
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 80px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .glow-border{
+      position: relative;
+      isolation: isolate;
+    }
+    .glow-border::before{
+      content:"";
+      position:absolute; inset:-1px;
+      border-radius: 24px;
+      background: conic-gradient(from 180deg,
+        rgba(124,58,237,.55), rgba(6,182,212,.55), rgba(244,63,94,.45), rgba(124,58,237,.55)
+      );
+      filter: blur(10px);
+      opacity: .35;
+      z-index: -1;
+      animation: spin 10s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .btn{
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .btn:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.22);
+      background: rgba(255,255,255,.08);
+    }
+    .btn-primary{
+      border: 1px solid rgba(255,255,255,.14);
+      background: linear-gradient(135deg, rgba(124,58,237,.95), rgba(6,182,212,.75));
+      box-shadow: 0 18px 60px rgba(124,58,237,.22);
+      transition: transform .18s ease, filter .18s ease;
+    }
+    .btn-primary:hover{ transform: translateY(-2px); filter: saturate(1.08); }
+
+    .tag{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+    }
+
+    .lift{
+      transition: transform .25s ease, border-color .25s ease, background .25s ease;
+    }
+    .lift:hover{
+      transform: translateY(-6px);
+      border-color: rgba(255,255,255,.18);
+      background: rgba(255,255,255,.075);
+    }
+
+    .reveal{ opacity:0; transform: translateY(14px); transition: all .65s cubic-bezier(.2,.8,.2,1); }
+    .reveal.show{ opacity:1; transform: translateY(0); }
+
+    .divider{
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
+    }
+
+    .mono{ font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+
+    .grad-accent{
+      background: linear-gradient(90deg, rgba(124,58,237,1), rgba(6,182,212,1), rgba(244,63,94,1));
+      -webkit-background-clip: text;
+      background-clip:text;
+      color: transparent;
+    }
+
+    /* Profile photo ring */
+    .ring{
+      background: conic-gradient(from 180deg, rgba(124,58,237,.9), rgba(6,182,212,.85), rgba(244,63,94,.65), rgba(124,58,237,.9));
+      padding: 2px;
+      border-radius: 28px;
+      box-shadow: 0 40px 120px rgba(0,0,0,.55);
+    }
+  </style>
+
+  <!-- Schema -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Person",
+    "name":"M R Madhavan",
+    "address":{"@type":"PostalAddress","addressRegion":"Kerala","addressCountry":"IN"},
+    "email":"mailto:melepurakkalmadhavan@gmail.com",
+    "sameAs":["https://www.linkedin.com/in/m-r-madhavan-427244157/"]
+  }
+  </script>
+</head>
+
+<body class="noise">
+  <div class="spotlight"></div>
+
+  <!-- NAV -->
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-[#050816]/60 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+      <a href="#top" class="flex items-center gap-3">
+        <span class="inline-flex h-9 w-9 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+          <span class="mono text-xs text-white/80">MR</span>
+        </span>
+        <div class="leading-tight">
+          <div class="text-sm font-semibold">M R Madhavan</div>
+          <div class="text-xs text-white/55">AI Engineer • Full‑Stack Developer</div>
+        </div>
+      </a>
+
+      <nav class="hidden items-center gap-6 text-sm text-white/70 md:flex">
+        <a href="#about" class="hover:text-white">About</a>
+        <a href="#experience" class="hover:text-white">Experience</a>
+        <a href="#patents" class="hover:text-white">Patents</a>
+        <a href="#projects" class="hover:text-white">Projects</a>
+        <a href="#skills" class="hover:text-white">Skills</a>
+        <a href="#education" class="hover:text-white">Education</a>
+        <a href="#contact" class="hover:text-white">Contact</a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <a class="btn rounded-xl px-3 py-2 text-xs font-semibold" href="#projects">View work</a>
+        <a class="btn-primary rounded-xl px-3 py-2 text-xs font-semibold text-white"
+           href="assets/M_R_Madhavan_Resume.pdf" target="_blank" rel="noreferrer">Download CV</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top" class="mx-auto max-w-6xl px-4">
+    <!-- HERO -->
+    <section class="pt-14 md:pt-18">
+      <div class="grid gap-5 md:grid-cols-[1.35fr_.65fr] md:items-start">
+        <div class="reveal glow-border rounded-[24px]">
+          <div class="glass rounded-[24px] p-6 md:p-8">
+            <p class="mono text-[11px] tracking-widest text-white/55">GENAI • RAG • CV • CLOUD • TESTING</p>
+            <h1 class="mt-3 text-3xl font-semibold leading-tight md:text-5xl">
+              Building <span class="grad-accent">production‑ready</span> AI & full‑stack systems.
+            </h1>
+
+            <p class="mt-4 max-w-2xl text-sm leading-relaxed text-white/75">
+              AI Engineer experience in GenAI image classification (25,000+ images), RAG pipelines, and testing discipline,
+              plus full‑stack projects across web and data-focused automation.
+            </p>
+
+            <div class="mt-6 flex flex-wrap gap-2">
+              <span class="tag rounded-full px-3 py-1 text-xs text-white/75">Python</span>
+              <span class="tag rounded-full px-3 py-1 text-xs text-white/75">OpenCV</span>
+              <span class="tag rounded-full px-3 py-1 text-xs text-white/75">TensorFlow</span>
+              <span class="tag rounded-full px-3 py-1 text-xs text-white/75">PyTorch</span>
+              <span class="tag rounded-full px-3 py-1 text-xs text-white/75">FastAPI</span>
+              <span class="tag rounded-full px-3 py-1 text-xs text-white/75">Flask</span>
+              <span class="tag rounded-full px-3 py-1 text-xs text-white/75">React</span>
+              <span class="tag rounded-full px-3 py-1 text-xs text-white/75">Angular</span>
+              <span class="tag rounded-full px-3 py-1 text-xs text-white/75">Docker</span>
+              <span class="tag rounded-full px-3 py-1 text-xs text-white/75">Kubernetes</span>
+            </div>
+
+            <div class="mt-7 flex flex-wrap gap-3">
+              <a class="btn-primary rounded-2xl px-4 py-2.5 text-sm font-semibold text-white" href="#contact">Hire / Collaborate</a>
+              <a class="btn rounded-2xl px-4 py-2.5 text-sm font-semibold text-white/90"
+                 href="https://www.linkedin.com/in/m-r-madhavan-427244157/" target="_blank" rel="noreferrer">LinkedIn</a>
+              <a class="btn rounded-2xl px-4 py-2.5 text-sm font-semibold text-white/90"
+                 href="mailto:melepurakkalmadhavan@gmail.com">Email</a>
+            </div>
+
+            <div class="mt-8 divider"></div>
+
+            <!-- Highlights (numbers sell) -->
+            <div class="mt-6 grid gap-3 sm:grid-cols-3">
+              <div class="lift rounded-2xl border border-white/10 bg-white/5 p-4">
+                <p class="text-xs text-white/55">Scale</p>
+                <p class="mt-1 text-sm font-semibold">25,000+ images</p>
+                <p class="mt-1 text-xs text-white/55">GenAI classification pipeline</p>
+              </div>
+              <div class="lift rounded-2xl border border-white/10 bg-white/5 p-4">
+                <p class="text-xs text-white/55">Impact</p>
+                <p class="mt-1 text-sm font-semibold">2× engagement</p>
+                <p class="mt-1 text-xs text-white/55">30% lower drop‑off</p>
+              </div>
+              <div class="lift rounded-2xl border border-white/10 bg-white/5 p-4">
+                <p class="text-xs text-white/55">Quality</p>
+                <p class="mt-1 text-sm font-semibold">100% coverage</p>
+                <p class="mt-1 text-xs text-white/55">Critical module tests</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PHOTO + QUICK INFO -->
+        <aside class="reveal glass rounded-[24px] p-6">
+          <div class="flex items-center justify-between">
+            <p class="text-sm font-semibold">Profile</p>
+            <span class="mono text-[11px] text-white/55">Kerala, IN</span>
+          </div>
+
+          <div class="mt-5">
+            <!-- Put your photo at: assets/profile.jpg -->
+            <div class="ring">
+              <div class="rounded-[26px] bg-[#050816] p-2">
+                <img
+                  src="assets/profile.jpg"
+                  alt="M R Madhavan photo"
+                  class="h-56 w-full rounded-[20px] object-cover border border-white/10 bg-white/5"
+                  onerror="this.style.display='none'; document.getElementById('photoFallback').style.display='grid';"
+                />
+                <div id="photoFallback" class="hidden h-56 w-full place-items-center rounded-[20px] border border-white/10 bg-white/5">
+                  <div class="text-center">
+                    <div class="mono text-[11px] tracking-widest text-white/55">ADD PHOTO</div>
+                    <div class="mt-2 text-sm text-white/70">assets/profile.jpg</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-5 space-y-3 text-sm text-white/75">
+              <div class="flex items-center justify-between gap-4">
+                <span class="text-white/55">Email</span>
+                <span class="mono text-xs text-white/80">melepurakkalmadhavan@gmail.com</span>
+              </div>
+              <div class="flex items-center justify-between gap-4">
+                <span class="text-white/55">LinkedIn</span>
+                <a class="text-white/80 hover:text-white underline decoration-white/20"
+                   href="https://www.linkedin.com/in/m-r-madhavan-427244157/" target="_blank" rel="noreferrer">Open</a>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="pt-14">
+      <div class="reveal">
+        <h2 class="text-2xl font-semibold">About</h2>
+        <p class="mt-2 text-sm text-white/65">
+          Engineering focus: build ML/GenAI features with measurable results, reliable tests, and clean APIs.
+        </p>
+      </div>
+
+      <div class="mt-6 grid gap-4 md:grid-cols-3">
+        <div class="reveal lift glass rounded-[24px] p-6">
+          <p class="mono text-[11px] tracking-widest text-white/55">WHAT I DO</p>
+          <p class="mt-2 text-sm text-white/75">
+            GenAI + computer vision pipelines, RAG systems, backend APIs, and full‑stack interfaces.
+          </p>
+        </div>
+        <div class="reveal lift glass rounded-[24px] p-6">
+          <p class="mono text-[11px] tracking-widest text-white/55">HOW I WORK</p>
+          <p class="mt-2 text-sm text-white/75">
+            Metrics-first, test-first, and production-minded (monitoring, CI/CD, containers).
+          </p>
+        </div>
+        <div class="reveal lift glass rounded-[24px] p-6">
+          <p class="mono text-[11px] tracking-widest text-white/55">WHAT I WANT</p>
+          <p class="mt-2 text-sm text-white/75">
+            Roles in AI/ML engineering, backend, or full‑stack where building and shipping matters.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" class="pt-14">
+      <div class="reveal">
+        <h2 class="text-2xl font-semibold">Professional experience</h2>
+      </div>
+
+      <div class="mt-6 grid gap-4">
+        <article class="reveal lift glass rounded-[24px] p-6">
+          <div class="flex flex-wrap items-start justify-between gap-2">
+            <div>
+              <h3 class="text-lg font-semibold">AI Engineer — Shiash Info Solutions LLC</h3>
+              <p class="mt-1 text-sm text-white/60">Chennai, IN</p>
+            </div>
+            <span class="mono text-[11px] text-white/55">Aug 2023 – Jun 2024</span>
+          </div>
+          <ul class="mt-4 list-disc space-y-2 pl-5 text-sm text-white/75">
+            <li>Implemented a GenAI image classification system for 25,000+ images with training pipeline; used OpenCV + TensorFlow.</li>
+            <li>Overhauled data processing + model training; supported RAG pipeline with ingestion and OpenAI integration.</li>
+            <li>Analyzed 25,000 monthly active users; improved engagement time 2× and reduced drop‑off by 30% using LLM fine‑tuning + Pinecone.</li>
+            <li>Initiated unit tests for a critical module and achieved 100% test coverage.</li>
+          </ul>
+        </article>
+
+        <article class="reveal lift glass rounded-[24px] p-6">
+          <div class="flex flex-wrap items-start justify-between gap-2">
+            <div>
+              <h3 class="text-lg font-semibold">Software Development Engineer Intern — Capabl India LLC</h3>
+              <p class="mt-1 text-sm text-white/60">Bangalore, IN</p>
+            </div>
+            <span class="mono text-[11px] text-white/55">Jun 2023 – Jul 2023</span>
+          </div>
+          <ul class="mt-4 list-disc space-y-2 pl-5 text-sm text-white/75">
+            <li>Built a library management system (Python + Azure) and automated 90% of manual work; used Docker, Kubernetes and CI/CD.</li>
+            <li>Refactored training scripts and cut model training time by 25%; designed a mobile app with TypeScript/React Native.</li>
+            <li>Designed Angular web app with Flask REST APIs; implemented 50+ E2E tests using Selenium.</li>
+            <li>Improved frontend quality and reduced UI-related bugs by 15% via testing.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- PATENTS -->
+    <section id="patents" class="pt-14">
+      <div class="reveal">
+        <h2 class="text-2xl font-semibold">Patents</h2>
+      </div>
+
+      <div class="mt-6 grid gap-4 md:grid-cols-2">
+        <article class="reveal lift glass rounded-[24px] p-6">
+          <p class="mono text-[11px] tracking-widest text-white/55">PUBLISHED</p>
+          <h3 class="mt-2 text-lg font-semibold">System to Secure MoneyTransaction</h3>
+          <p class="mt-2 text-sm text-white/70">
+            Fingerprint + OTP MFA for UPI transactions; mitigated 24% of simulated phishing attacks; validated with 100+ test scenarios.
+          </p>
+          <p class="mt-4 mono text-[11px] text-white/55">Indian Patent Application No. 202541034231</p>
+        </article>
+
+        <article class="reveal lift glass rounded-[24px] p-6">
+          <p class="mono text-[11px] tracking-widest text-white/55">PUBLISHED</p>
+          <h3 class="mt-2 text-lg font-semibold">Real‑Time ATM Fraud Detection</h3>
+          <p class="mt-2 text-sm text-white/70">
+            Real-time CV system using mask detection + gesture analysis; reduced false positives by 22%.
+          </p>
+          <p class="mt-4 mono text-[11px] text-white/55">Indian Patent Application No. 202541109062</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="pt-14">
+      <div class="reveal">
+        <h2 class="text-2xl font-semibold">Projects</h2>
+      </div>
+
+      <div class="mt-6 grid gap-4 md:grid-cols-2">
+        <article class="reveal lift glass rounded-[24px] p-6">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="text-lg font-semibold">Byte Basket — Online Grocery Store</h3>
+            <span class="mono text-[11px] text-white/55">May 2025</span>
+          </div>
+          <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-white/75">
+            <li>Built e-commerce platform with PHP, MySQL, Bootstrap; improved order experience by 40%.</li>
+            <li>Search + filtering + real-time cart updates; reduced drop-off by 25%.</li>
+            <li>Improved non-technical access to data by 40% and lowered analyst workload.</li>
+          </ul>
+          <div class="mt-4 flex flex-wrap gap-2 text-xs text-white/75">
+            <span class="tag rounded-full px-3 py-1">PHP</span>
+            <span class="tag rounded-full px-3 py-1">MySQL</span>
+            <span class="tag rounded-full px-3 py-1">Bootstrap</span>
+          </div>
+          <div class="mt-5 flex flex-wrap gap-2">
+          </div>
+        </article>
+
+        <article class="reveal lift glass rounded-[24px] p-6">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="text-lg font-semibold">Natural Language SQL Chatbot</h3>
+            <span class="mono text-[11px] text-white/55">Aug 2024</span>
+          </div>
+          <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-white/75">
+            <li>Converted plain English into SQL queries with 95%+ accuracy.</li>
+            <li>Supported 50+ query types using intent classification + slot filling.</li>
+            <li>Validated integrity with 100+ test scenarios for compliance.</li>
+          </ul>
+          <div class="mt-4 flex flex-wrap gap-2 text-xs text-white/75">
+            <span class="tag rounded-full px-3 py-1">NLP</span>
+            <span class="tag rounded-full px-3 py-1">SQL</span>
+            <span class="tag rounded-full px-3 py-1">Intent/Slots</span>
+          </div>
+          <div class="mt-5 flex flex-wrap gap-2">
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="pt-14">
+      <div class="reveal">
+        <h2 class="text-2xl font-semibold">Skills</h2>
+      </div>
+
+      <div class="mt-6 grid gap-4 md:grid-cols-2">
+        <div class="reveal lift glass rounded-[24px] p-6">
+          <p class="mono text-[11px] tracking-widest text-white/55">TECHNICAL</p>
+          <div class="mt-4 flex flex-wrap gap-2 text-xs text-white/75">
+            <span class="tag rounded-full px-3 py-1">Python</span>
+            <span class="tag rounded-full px-3 py-1">Java</span>
+            <span class="tag rounded-full px-3 py-1">JavaScript</span>
+            <span class="tag rounded-full px-3 py-1">Vite</span>
+            <span class="tag rounded-full px-3 py-1">Yarn</span>
+            <span class="tag rounded-full px-3 py-1">RDBMS</span>
+            <span class="tag rounded-full px-3 py-1">Angular</span>
+            <span class="tag rounded-full px-3 py-1">HTML5</span>
+            <span class="tag rounded-full px-3 py-1">CSS</span>
+            <span class="tag rounded-full px-3 py-1">React.js</span>
+            <span class="tag rounded-full px-3 py-1">GenAI</span>
+            <span class="tag rounded-full px-3 py-1">REST API</span>
+            <span class="tag rounded-full px-3 py-1">FastAPI</span>
+            <span class="tag rounded-full px-3 py-1">Flask</span>
+            <span class="tag rounded-full px-3 py-1">RAG</span>
+            <span class="tag rounded-full px-3 py-1">GraphQL</span>
+            <span class="tag rounded-full px-3 py-1">Networking</span>
+            <span class="tag rounded-full px-3 py-1">LangChain</span>
+            <span class="tag rounded-full px-3 py-1">LangGraph</span>
+          </div>
+        </div>
+
+        <div class="reveal lift glass rounded-[24px] p-6">
+          <p class="mono text-[11px] tracking-widest text-white/55">TOOLS & PLATFORMS</p>
+          <div class="mt-4 flex flex-wrap gap-2 text-xs text-white/75">
+            <span class="tag rounded-full px-3 py-1">AWS</span>
+            <span class="tag rounded-full px-3 py-1">Azure</span>
+            <span class="tag rounded-full px-3 py-1">Docker</span>
+            <span class="tag rounded-full px-3 py-1">Kubernetes</span>
+            <span class="tag rounded-full px-3 py-1">Git & GitHub</span>
+            <span class="tag rounded-full px-3 py-1">Jenkins</span>
+            <span class="tag rounded-full px-3 py-1">Postman</span>
+            <span class="tag rounded-full px-3 py-1">PostgreSQL</span>
+            <span class="tag rounded-full px-3 py-1">Oracle</span>
+            <span class="tag rounded-full px-3 py-1">Spring</span>
+            <span class="tag rounded-full px-3 py-1">JSF</span>
+            <span class="tag rounded-full px-3 py-1">JUnit</span>
+            <span class="tag rounded-full px-3 py-1">Mockito</span>
+            <span class="tag rounded-full px-3 py-1">TestNG</span>
+            <span class="tag rounded-full px-3 py-1">Maven</span>
+            <span class="tag rounded-full px-3 py-1">Prometheus</span>
+            <span class="tag rounded-full px-3 py-1">Grafana</span>
+            <span class="tag rounded-full px-3 py-1">Azure Monitor</span>
+            <span class="tag rounded-full px-3 py-1">Hadoop</span>
+            <span class="tag rounded-full px-3 py-1">Kafka</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education" class="pt-14 pb-6">
+      <div class="reveal">
+        <h2 class="text-2xl font-semibold">Education</h2>
+        <p class="mt-2 text-sm text-white/60">Clear and ATS-friendly.</p>
+      </div>
+
+      <div class="mt-6 grid gap-4">
+        <div class="reveal lift glass rounded-[24px] p-6">
+          <div class="flex flex-wrap items-start justify-between gap-2">
+            <div>
+              <h3 class="text-lg font-semibold">VIT University</h3>
+              <p class="mt-1 text-sm text-white/60">Chennai, IN</p>
+            </div>
+            <span class="mono text-[11px] text-white/55">BTech • June 2025</span>
+          </div>
+          <p class="mt-3 text-sm text-white/75">
+            Major: Computer Science • Minors: Artificial Intelligence and Robotics • GPA: 3.39/4.0
+          </p>
+          <p class="mt-2 text-sm text-white/65">
+            Coursework: Software Engineering, Operating Systems, Algorithms, Artificial Intelligence, Data Structures
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="pt-10 pb-16">
+      <div class="reveal glow-border rounded-[24px]">
+        <div class="glass rounded-[24px] p-6 md:p-8">
+          <h2 class="text-2xl font-semibold">Contact</h2>
+          <p class="mt-2 text-sm text-white/70">
+            Open to AI/ML engineering, backend, and full‑stack roles.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a class="btn-primary rounded-2xl px-4 py-2.5 text-sm font-semibold text-white"
+               href="mailto:melepurakkalmadhavan@gmail.com">melepurakkalmadhavan@gmail.com</a>
+            <a class="btn rounded-2xl px-4 py-2.5 text-sm font-semibold text-white/90"
+               href="https://www.linkedin.com/in/m-r-madhavan-427244157/" target="_blank" rel="noreferrer">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 py-8">
+    <div class="mx-auto max-w-6xl px-4 text-xs text-white/45">
+      © <span id="year"></span> M R Madhavan    </div>
+  </footer>
+
+  <script>
+    // Reveal on scroll
+    const els = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Cursor spotlight
+    const root = document.documentElement;
+    window.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+      root.style.setProperty('--mx', x + '%');
+      root.style.setProperty('--my', y + '%');
+    }, { passive: true });
+  </script>
+</body>
+</html>
